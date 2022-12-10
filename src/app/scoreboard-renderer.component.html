@@ -1,0 +1,13 @@
+<div class="background-image"></div>
+<canvas id="render_target" class="render-target"></canvas>
+
+<div class="overlay" *ngIf="completed && data?.perfectScore">
+    <div class="image-wrapper">
+        <img src="./assets/perfect_score.gif"/>
+        <span>PERFECT SCORE</span>
+    </div>
+</div>
+
+<img src="./assets/trending_up.png" id="trendingUp" style="display: none"/>
+<img src="./assets/trending_flat.png" id="trendingFlat" style="display: none"/>
+<img src="./assets/trending_down.png" id="trendingDown" style="display: none"/>
