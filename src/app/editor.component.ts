@@ -110,7 +110,7 @@ export class EditorComponent implements OnInit {
     const params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=${pos.width},height=${pos.height},left=${pos.x},top=${pos.y}`;
     
     this.allowLaunchAnimation = false;
-    this.scoreWindow = open(`/`, 'Scoreboard', params);
+    this.scoreWindow = open(location.href, 'Scoreboard', params);
     const scoreboardReady$ = new Subject<ScoreboardState>();
     (this.scoreWindow as any).scoreboardReady$ = scoreboardReady$;
 
