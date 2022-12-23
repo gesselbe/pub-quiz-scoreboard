@@ -81,10 +81,10 @@
   </div>
 </div>
 
-<div class="overlay" *ngIf="chromeVersion < 104 || askForWindowManagement">
+<div class="overlay" *ngIf="(chromeVersion < 104 && chromeVersion !== 0) || (chromeVersion === 0 && !ignoreBrowser) || askForWindowManagement" (click)="onIgnoreBrowser()">
   <div style="border-radius: 0.5em;overflow: hidden">
     <div class="notification">
-      <span *ngIf="chromeVersion === 0">This tool currently only works on Chrome or Edge browsers</span>
+      <span *ngIf="chromeVersion === 0">Use a Chrome or Edge browser to benefit from all features.</span>
       <span *ngIf="chromeVersion && chromeVersion < 104">Your browser must be updated. Version 104 or later is required.<br/> Go to Settings -> Help -> About Google Chrome and update.</span>
       <span *ngIf="askForWindowManagement">Waiting for permission to show scores on second screen...</span>
     </div>

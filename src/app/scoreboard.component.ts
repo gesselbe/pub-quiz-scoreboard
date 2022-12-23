@@ -24,12 +24,19 @@ export class ScoreboardComponent implements OnInit {
   @ViewChild('rendererElement', { static: true }) rendererElement!: ScoreboardRendererComponent;
   screenPosition$?: Subject<ScreenPosition>;
   scoreboardReady$?: Subject<ScoreboardState>;
+  
+  chromeVersion = 0;
 
   @HostListener('window:message', ['$event'])
   onMessage(ev: MessageEvent) {
     if (ev.data === 'start') {
       this.onStart();
     }
+  }
+
+  @HostListener('window:click', ['$event'])
+  onClick(ev: MessageEvent) {
+    this.onStart();
   }
 
   @HostListener('window:beforeunload')
@@ -45,6 +52,8 @@ export class ScoreboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.chromeVersion = Number((navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./) ?? [])[2] ?? '0');
+
     this.scoreboardReady$ = (window as any).scoreboardReady$;
     this.scoreboardReady$?.next(ScoreboardState.READY);
   }

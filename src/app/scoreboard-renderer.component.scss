@@ -50,11 +50,16 @@
 
         span {
             z-index: 3000;
+            opacity: 0;
+            animation: 12s fadeIn ease;
+            animation-delay: 1.5s;
         }
     }
     img {
         width: 60vw;
-        max-height: 60vh;
+        max-height: 0;
+        animation: 12s imgFadeIn ease;
+        animation-delay: 0.5s;
     }
 
     .team-list {
@@ -63,6 +68,21 @@
     }
     .team-spacer {
         padding: 0 2em;
+    }
+}
+
+@keyframes imgFadeIn {
+    0% {
+        max-height: 0;
+    }
+    30% {
+        max-height: 0;
+    }
+    33% {
+        max-height: 60vh;
+    }
+    100% {
+        max-height: 60vh;
     }
 }
 
@@ -99,6 +119,21 @@
     z-index: 1000;
     width: auto !important;
     max-height: inherit !important;
+    animation: 5s moveIn ease !important;
+    animation-delay: 0s !important;
+    animation-fill-mode: forwards;
+}
+
+@keyframes moveIn {
+    0% {
+        translate: 100%;
+    }
+    80% {
+        translate: 100%;
+    }
+    100% {
+        translate: 0;
+    }
 }
 
 @keyframes fightClubBlink {

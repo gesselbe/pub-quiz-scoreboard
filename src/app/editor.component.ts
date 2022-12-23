@@ -56,6 +56,8 @@ export class EditorComponent implements OnInit {
 
   chromeVersion = 0;
 
+  ignoreBrowser = false;
+
   askForWindowManagement = false;
 
   constructor(private readonly zone: NgZone) {}
@@ -83,6 +85,11 @@ export class EditorComponent implements OnInit {
   }
 
   onLaunch(): void {
+    // Window placement is not supported on firefox
+    if (this.chromeVersion === 0) {
+      this.onLaunchWindow();
+      return;
+    }
     navigator.permissions.query({ name: 'window-placement' } as any)
     .then(status => {
       if (status.state === 'granted') {
@@ -280,6 +287,10 @@ export class EditorComponent implements OnInit {
 
   trackByName(index: number, item: any): number {
     return index;
+  }
+
+  onIgnoreBrowser(): void {
+    this.ignoreBrowser = true;
   }
 
   closeDialog(response: boolean): void {
