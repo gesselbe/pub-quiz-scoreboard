@@ -426,13 +426,19 @@ export class ScoreboardRendererComponent implements OnInit {
 
             this.ctx.font = this.metrics.scoresFont;
             this.ctx.fillStyle = this.textColor;
-            this.ctx.fillText(`${highlight ? score : score.toFixed(1)}${highlight && this.data.scoreOnFire === score ? '🔥' : ''}`, left + teamColumnSemiWidth, bottom - scoreLabelSectionSemiHeight, teamColumnWidth);         
+            this.ctx.fillText(`${highlight ? score : score.toFixed(1)}${highlight && this.data.scoreOnFire === this.data.scores[this.data.categories.length - 1][t] ? '🔥' : ''}`, left + teamColumnSemiWidth, bottom - scoreLabelSectionSemiHeight, teamColumnWidth);         
 
             if (highlight && this.data.trends) {
                 const img = document.getElementById(this.data.trends[t] < 0 ? 'trendingUp' : this.data.trends[t] > 0 ? 'trendingDown' : 'trendingFlat') as HTMLImageElement;
                 const scaledWidth = scoreColumnWidth * (0.5 - 0.15 * scoreColumnWeight);
                 const scaledHeight = img.height * scaledWidth / img.width;
                 this.ctx.drawImage(img, 0, 0, img.width, img.height, left + teamColumnSemiWidth - scaledWidth / 2, bottom, scaledWidth, scaledHeight);
+
+                if (this.data.fireworks) {
+                    this.ctx.font = this.metrics.scoresFont;
+                    this.ctx.fillStyle = 'black';
+                    this.ctx.fillText(`${this.data.placements[t]}`, left + teamColumnSemiWidth, bottom + scaledHeight * 2, scoreColumnWidth);         
+                }
             }
         }
 

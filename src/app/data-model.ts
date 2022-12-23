@@ -3,8 +3,9 @@ export interface RenderData {
     fireworks: boolean;
     scores: number[][];
     teams: string[];
+    placements: string[];
     trends: number[];
     scoreOnFire: number;
     categories: string[];
-    perfectScore?: boolean;
+    perfectScoreTeams: string[];
 }

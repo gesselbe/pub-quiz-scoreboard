@@ -49,8 +49,15 @@
         color: white;
     }
     img {
-        width: 70vh;
-        height: 70vh;
+        width: 60vw;
+    }
+
+    .team-list {
+        max-width: 90vw;
+        font-size: 4vh;
+    }
+    .team-spacer {
+        padding: 0 2em;
     }
 }
 

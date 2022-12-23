@@ -137,8 +137,8 @@ export class EditorComponent implements OnInit {
   }
 
   onLaunchAnimation(fireworks?: boolean): void {
-    const illegalScore = !!this.board.teams.find(team => !!team.scores.find(score => score > 24));
-    if (illegalScore) {
+    const invalidScore = !!this.board.teams.find(team => !!team.scores.find(score => score > 24));
+    if (invalidScore) {
       this.openDialog('Error', 'One score is greater than 24.', 'Ok')
       .subscribe(_ => undefined);
       return;
@@ -146,6 +146,7 @@ export class EditorComponent implements OnInit {
 
     // Compute trends
     let trends;
+    let placements;
     if (this.board.categories.length > 1) {
       const totalScores = this.board.teams.map(team => team.totalScore);
       const rankedTotalScores = [...totalScores].sort((a,b) => b - a);
@@ -154,6 +155,7 @@ export class EditorComponent implements OnInit {
       const previousRankedTotalScores = [...previousTotalScores].sort((a,b) => b - a);
       const previousRanks = previousTotalScores.map(score => previousRankedTotalScores.findIndex(entry => entry === score));
       trends = currentRanks.map((rank, index) => rank - previousRanks[index]);
+      placements = currentRanks.map(rank => rank + 1).map(rank => rank === 1 ? '1st' : rank === 2 ? '2nd' : rank === 3 ? '3rd' : `${rank}th`);
     }
 
     const scoresPerCategory: number[][] = [];
@@ -162,13 +164,14 @@ export class EditorComponent implements OnInit {
         scoresPerCategory.push()
       }
     }
-    const perfectScore = this.board.teams.map(team => team.scores[team.scores.length - 1] === 24).reduce((a,b) => a || b, false);
+    const perfectScoreTeams = this.board.teams.map(team => team.scores[team.scores.length - 1] === 24 ? team.name : '').filter(team => !!team);
     const scoreboardData: RenderData = JSON.parse(JSON.stringify({
       fireworks,
-      perfectScore,
+      perfectScoreTeams,
       trends,
-      scoreOnFire: this.board.teams.map(team => team.totalScore).reduce((a,b) => Math.max(a, b), 0),
-      duration: 6000,
+      placements,
+      scoreOnFire: this.board.teams.map(team => team.scores[team.scores.length - 1]).reduce((a,b) => Math.max(a, b), 0),
+      duration: 6000 + this.board.categories.length * 1000 + this.board.teams.length * 500 + (fireworks ? 2000 : 0) - (this.board.categories.length < 2 ? 2000 : 0),
       teams: this.board.teams.map(team => team.name),
       categories: this.board.categories.map(category => category.name),
       scores: this.board.categories.map((_, categoryIndex) => this.board.teams.map(team => team.scores[categoryIndex])),

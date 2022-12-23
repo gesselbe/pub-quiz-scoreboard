@@ -1,10 +1,16 @@
 <div class="background-image"></div>
 <canvas id="render_target" class="render-target"></canvas>
 
-<div class="overlay" *ngIf="completed && data?.perfectScore">
+<div class="overlay" *ngIf="completed && data?.perfectScoreTeams?.length">
     <div class="image-wrapper">
         <img src="./assets/perfect_score.gif"/>
         <span>PERFECT SCORE</span>
+        <span class="team-list">
+            <ng-container *ngFor="let name of data?.perfectScoreTeams; let i=index">
+                <span>{{name}}</span>
+                <span *ngIf="i < data.perfectScoreTeams.length - 1" class="team-spacer"></span>
+            </ng-container>
+        </span>
     </div>
 </div>
 
