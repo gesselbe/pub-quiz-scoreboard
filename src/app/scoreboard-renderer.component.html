@@ -12,7 +12,23 @@
             </ng-container>
         </span>
     </div>
+    <img src="./assets/till1.png" class="overlay-image2"/>
 </div>
+
+<div class="overlay" *ngIf="completed && data?.zeroScoreTeams?.length && !data?.perfectScoreTeams?.length">
+    <div class="image-wrapper">
+        <img [src]="zeroScoreGif"/>
+        <span>NULL-RUNDE</span>
+        <span class="team-list">
+            <ng-container *ngFor="let name of data?.zeroScoreTeams; let i=index">
+                <span>{{name}}</span>
+                <span *ngIf="i < data.zeroScoreTeams.length - 1" class="team-spacer"></span>
+            </ng-container>
+        </span>
+    </div>
+</div>
+
+<img *ngIf="!completed && fightClubEffectDelay" src="./assets/till0.png" class="overlay-image" [style.animation-delay]="fightClubEffectDelay + 's'"/>
 
 <img src="./assets/trending_up.png" id="trendingUp" style="display: none"/>
 <img src="./assets/trending_flat.png" id="trendingFlat" style="display: none"/>

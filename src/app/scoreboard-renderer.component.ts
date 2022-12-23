@@ -54,6 +54,8 @@ export class ScoreboardRendererComponent implements OnInit {
     canvas!: HTMLCanvasElement;
     ctx!: CanvasRenderingContext2D;
 
+    fightClubEffectDelay = '';
+
     readonly animationBuffer = 10;
 
     // render metrics
@@ -114,6 +116,8 @@ export class ScoreboardRendererComponent implements OnInit {
 
     completed = false;
 
+    zeroScoreGif = '';
+
     ngOnInit(): void {
     }
 
@@ -121,6 +125,8 @@ export class ScoreboardRendererComponent implements OnInit {
         if (this.booting) {
             return;
         }
+        this.zeroScoreGif = `./assets/zero_score_${Math.min(2, Math.max(0, Math.floor(Math.random() * 3)))}.gif`;
+        this.fightClubEffectDelay = '';
         this.resetState();
         this.booting = true;
         this.canvas = document.getElementById("render_target") as HTMLCanvasElement;
@@ -155,6 +161,7 @@ export class ScoreboardRendererComponent implements OnInit {
             fireworks: renderData.fireworks
         } as Metrics;
         this.highlights = new Array(this.data.teams.length).fill(null);
+        this.fightClubEffectDelay = this.data.categories?.length > 3 && Math.random() > 0.8 ? `${Math.round(Math.random() * 8) + 1}` : '';
     }
 
     private renderLoop(timestamp: DOMHighResTimeStamp) {
@@ -426,7 +433,9 @@ export class ScoreboardRendererComponent implements OnInit {
 
             this.ctx.font = this.metrics.scoresFont;
             this.ctx.fillStyle = this.textColor;
-            this.ctx.fillText(`${highlight ? score : score.toFixed(1)}${highlight && this.data.scoreOnFire === this.data.scores[this.data.categories.length - 1][t] ? '🔥' : ''}`, left + teamColumnSemiWidth, bottom - scoreLabelSectionSemiHeight, teamColumnWidth);         
+            const emojiOnFire = `${highlight && this.data.scoreOnFire === this.data.scores[this.data.categories.length - 1][t] ? '🔥' : ''}`;
+            const emojiOnIce = `${highlight && this.data.scoreOnIce === this.data.scores[this.data.categories.length - 1][t] ? '💩' : ''}`;
+            this.ctx.fillText(`${highlight ? score : score.toFixed(1)}${emojiOnFire || emojiOnIce}`, left + teamColumnSemiWidth, bottom - scoreLabelSectionSemiHeight, teamColumnWidth);         
 
             if (highlight && this.data.trends) {
                 const img = document.getElementById(this.data.trends[t] < 0 ? 'trendingUp' : this.data.trends[t] > 0 ? 'trendingDown' : 'trendingFlat') as HTMLImageElement;

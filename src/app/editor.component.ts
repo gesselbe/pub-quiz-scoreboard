@@ -165,12 +165,15 @@ export class EditorComponent implements OnInit {
       }
     }
     const perfectScoreTeams = this.board.teams.map(team => team.scores[team.scores.length - 1] === 24 ? team.name : '').filter(team => !!team);
+    const zeroScoreTeams = this.board.teams.map(team => team.scores[team.scores.length - 1] === 0 ? team.name : '').filter(team => !!team);
     const scoreboardData: RenderData = JSON.parse(JSON.stringify({
       fireworks,
       perfectScoreTeams,
+      zeroScoreTeams,
       trends,
       placements,
       scoreOnFire: this.board.teams.map(team => team.scores[team.scores.length - 1]).reduce((a,b) => Math.max(a, b), 0),
+      scoreOnIce: this.board.teams.map(team => team.scores[team.scores.length - 1]).reduce((a,b) => Math.min(a, b), Infinity),
       duration: 6000 + this.board.categories.length * 1000 + this.board.teams.length * 500 + (fireworks ? 2000 : 0) - (this.board.categories.length < 2 ? 2000 : 0),
       teams: this.board.teams.map(team => team.name),
       categories: this.board.categories.map(category => category.name),

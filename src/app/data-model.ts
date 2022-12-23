@@ -5,7 +5,9 @@ export interface RenderData {
     teams: string[];
     placements: string[];
     trends: number[];
+    scoreOnIce: number;
     scoreOnFire: number;
     categories: string[];
     perfectScoreTeams: string[];
+    zeroScoreTeams: string[];
 }
